@@ -16,7 +16,7 @@ struct UnionFind {
     var rank = [Int]()
     var size = [Int]()
     
-    
+    /// if size is not adequate, return nil.
     init?(size:Int) {
         if(size < 0) {
             return nil
@@ -29,6 +29,8 @@ struct UnionFind {
         self.size = Array(repeatElement(1, count: size))
     }
 
+    /// if input is not adequate, return nil.
+    /// else return parent of input.
     mutating func find(parentOf me:Int) -> Int? {
         if me < 0 || count <= me {
             return nil
@@ -40,6 +42,9 @@ struct UnionFind {
         return self.parent[me]
     }
     
+    /// if input is not adequate, return nil.
+    /// else if A and B is in the same set, return false.
+    /// else return true.
     @discardableResult mutating func merge(setOf a:Int, setOf b:Int) -> Bool? {
         if a < 0 || count <= a || b < 0 || count <= b {
             return nil
