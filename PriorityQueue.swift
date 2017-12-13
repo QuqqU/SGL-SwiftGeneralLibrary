@@ -1,8 +1,20 @@
-//: Playground - noun: a place where people can play
-
 import Foundation
 
-class PriorityQueue<T: Comparable> {
+protocol PriorityQueueProtocol: class {
+    associatedtype T
+    
+    func push(value: T)
+    func pop() -> T?
+    func top() -> T?
+    func clear()
+    
+    var heap:[T] { get }
+    var count:Int { get }
+    var isEmpty:Bool { get }
+}
+
+
+class PriorityQueue<T: Comparable>: PriorityQueueProtocol {
     private var _heap = [T]()
     private let order: (T, T) -> Bool
     
@@ -83,22 +95,5 @@ extension PriorityQueue {
         self.init(array: [], ascending: ascending)
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
