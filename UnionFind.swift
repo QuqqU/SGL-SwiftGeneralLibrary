@@ -8,7 +8,7 @@
 import UIKit
 
 
-struct UnionFind {
+class UnionFind {
     var setCount:Int
     var largestSize:Int
     var count:Int
@@ -28,30 +28,30 @@ struct UnionFind {
         self.rank = Array(repeatElement(1, count: size))
         self.size = Array(repeatElement(1, count: size))
     }
-
+    
     /// if input is not adequate, return nil.
     /// else return parent of input.
-    mutating func find(parentOf me:Int) -> Int? {
+    func find(parentOf me:Int) -> Int? {
         if me < 0 || count <= me {
             return nil
         }
         if me == self.parent[me] {
             return me
         }
-        self.parent[me] = find(parentOf: parent[me])
+        self.parent[me] = find(parentOf: parent[me])!
         return self.parent[me]
     }
     
     /// if input is not adequate, return nil.
     /// else if A and B is in the same set, return false.
     /// else return true.
-    @discardableResult mutating func merge(setOf a:Int, setOf b:Int) -> Bool? {
+    @discardableResult func merge(setOf a:Int, setOf b:Int) -> Bool? {
         if a < 0 || count <= a || b < 0 || count <= b {
             return nil
         }
         
-        var a = find(parentOf: a)
-        var b = find(parentOf: b)
+        var a = find(parentOf: a)!
+        var b = find(parentOf: b)!
         
         if a == b {
             return false
