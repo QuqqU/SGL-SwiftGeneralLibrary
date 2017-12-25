@@ -70,36 +70,66 @@ class SplayTree<T: Comparable>{
             findKeyPlace : while true {
                 if key == p.key { return }
                 if key < p.key {
-                    if let _pLeft = p.left {
-                        p = _pLeft
-                    }
-                    else {
+                    guard let _pLeft = p.left else {
                         let newNode = Node<T>(value: key)
                         newNode.parent = p
                         p.left = newNode
                         splay(target: newNode)
                         return
                     }
+                    p = _pLeft
                 }
                 else {
-                    if let _pRight = p.right {
-                        p = _pRight
-                    }
-                    else {
+                    guard let _pRight = p.right else {
                         let newNode = Node<T>(value: key)
                         newNode.parent = p
                         p.right = newNode
                         splay(target: newNode)
                         return
                     }
+                    p = _pRight
                 }
             }
         }
         else { tree = Node<T>(value: key) }
     }
+    
+    func find(value key: T) -> Bool {
+        guard var p = tree else { return false }
+        findNode : while true {
+            if key == p.key { break }
+            if key < p.key {
+                guard let pLeft = p.left else { break }
+                p = pLeft
+            }
+            else {
+                guard let pRight = p.right else { break }
+                p = pRight
+            }
+        }
+        splay(target: p)
+        return key == p.key
+    }
+    
+    
 }
 
+let a = SplayTree<Int>()
+a.insert(value: 50)
+a.insert(value: 30)
 
+a.insert(value: 20)
+a.insert(value: 40)
+a.insert(value: 25)
+a.insert(value: 35)
+a.insert(value: 100)
+a.insert(value: 0)
+
+
+a.find(value: 44)
+//a.find(value: 25)
+
+dump(a)
 
 
 
