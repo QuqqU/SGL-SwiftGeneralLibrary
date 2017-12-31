@@ -4,9 +4,12 @@ import Swift
 
 protocol SplayTreeProtocol: class {
     associatedtype T where T: Comparable
-    
-    func splay(target me: Node<T>)
-    
+   
+    func insert(value key: T)
+    func find(value key: T) -> Bool
+    func delete(value key: T)
+    //k-0based
+    func findKthNumber(Kth k:Int) -> Int?
 }
 
 
@@ -19,6 +22,8 @@ class Node<T: Comparable> {
     var parent: Node?
     var left: Node?
     var right: Node?
+    
+    var subtreeSize = 1
 }
 extension Node: Equatable {
     static func ==(lhs: Node, rhs: Node) -> Bool {
@@ -30,6 +35,12 @@ extension Node: Equatable {
 class SplayTree<T: Comparable> : SplayTreeProtocol{
     var tree: Node<T>?
     var size: Int = 0
+    
+    func updateSubtreeSize(node:Node<T>) {
+        node.subtreeSize = 1
+        if let _nodeLeft = node.left { node.subtreeSize += _nodeLeft.subtreeSize }
+        if let _nodeRight = node.right { node.subtreeSize += _nodeRight.subtreeSize }
+    }
     
     func rotate(target me: Node<T>) {
         guard let _myParent = me.parent else { return }
@@ -53,6 +64,9 @@ class SplayTree<T: Comparable> : SplayTreeProtocol{
         if me.parent == nil { tree = me }
         else if _myParent == me.parent?.left { me.parent?.left = me }
         else { me.parent?.right = me }
+        
+        updateSubtreeSize(node: _myParent)
+        updateSubtreeSize(node: me)
     }
     
     func splay(target me: Node<T>) {
@@ -146,6 +160,21 @@ class SplayTree<T: Comparable> : SplayTreeProtocol{
             splay(target: rightMost!)
         }
     }
+    
+    //k-0based
+    func findKthNumber(Kth k:Int) -> Int? {
+        if k < 0 || self.size < k { return nil }
+        
+        var a = tree
+        while true {
+            
+        }
+        
+    }
+
+    
+    
+    
 }
 
 
@@ -184,8 +213,8 @@ a.insert(value: 11)
 
 a.delete(value: 21)
 dump(a)
-
 */
+
 
 
 
